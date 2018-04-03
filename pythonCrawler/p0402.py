@@ -1,8 +1,9 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-#用urllib库下载
-import urllib
+from  urllib import  request
+from  urllib  import  error
+import  urllib
 
 #re 正则库
 import re
@@ -11,8 +12,9 @@ import sys
 
 #获取内容
 def gethtmlContent(url):
-    page = urllib.urlopen(url)
-    html = page.read()
+    
+    response = urllib.request.urlopen(url)
+    html = response.read().decode('utf-8')
     return html
 
 
@@ -28,12 +30,17 @@ def getJPGs(html):
 
 #下载图片 保存成指定文件名
 def downloadjpg(imageurl,fileName):
-     try:
-         urllib.urlretrieve(imageurl,fileName)
-     except  urllib.ContentTooShortError as err:
-         print('下载发生错误:%s',err)
-     except  IOError as err:
-         print('错误%s',err)
+    try:
+        urllib.request.urlretrieve(imageurl,fileName)
+    except  error.HTTPError as err:
+        print('下载发生错误:%s',err.code)
+        raise
+    except  error.URLError as err:
+         print('错误%s',err.reason)
+         raise
+    except  ValueError as err:
+        print('错误%s',err)
+        raise
 
 
 def batchDownloadJpgs(imageurls,path = './Imags'):
@@ -41,10 +48,12 @@ def batchDownloadJpgs(imageurls,path = './Imags'):
     if not os.path.exists(path):
         os.system('mkdir %s'%path)
     for url in imageurls:
+        try:
             downloadjpg(url,path + '/' + str(count) + '.jpg')
             print('下载完第%d张'%count)
-            count = count+1
-
+        except:
+            pass
+        count = count+1
 
 def download(url):
     print('开始获取内容')
@@ -58,4 +67,6 @@ def  main():
     download(url)
 
 
+
 main()
+

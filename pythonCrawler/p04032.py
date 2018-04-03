@@ -5,15 +5,17 @@ from urllib import request
 from urllib import parse
 import time
 import json
-import hashlib
+#import hashlib
 baseurl = 'http://fanyi.youdao.com/translate?smartresult=dict&smartresult=rule'
               
 
 def fanyi(word):
-    
+
+#注释部分是 抓取过程中 发现有道翻译 的 salt 参数 和  sign参数是经过特殊处理的  所以需要  找到规则写的参数  后来 直接替换了接口 所以这些参数就不需要了
 #    t = word
 #    i =  int(time.time()*1000)
 #    o = ('fanyideskweb' + str(t) + str(i) + 'ebSeFb%=XZ%T[KZ)c(sy!').encode('utf-8')
+#md5运算
 #    o = hashlib.md5(o).hexdigest()
 
     FormData = {}
