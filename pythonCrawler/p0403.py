@@ -5,7 +5,6 @@ from urllib import request
 
 #chardet模块 可以自动识别html是用的什么编码
 import chardet
-
 if  __name__ == '__main__':
     
     
